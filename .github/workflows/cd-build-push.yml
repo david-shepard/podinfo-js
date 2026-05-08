@@ -1,0 +1,76 @@
+name: Docker build and push
+
+# TODO: run only if `ci.yml` succeeds
+# see https://github.com/orgs/community/discussions/66512 & https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run
+# also https://github.com/orgs/community/discussions/66512 is why I'm tinkering on the main branch
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # for github releases
+      packages: write # push to ghcr.io
+
+    strategy:
+      matrix:
+        node-version: [24.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      # TODO: extract this duplicated logic out
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run test:run
+
+      - name: Build
+        run: npm run build
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate docker image tags
+        id: meta
+        uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
+        with:
+          flavor: |
+            latest=auto
+          images: |
+            name=ghcr.io/david-shepard/podinfo-js
+          tags: |
+            type=sha,enable=true,prefix=sha-,suffix=,format=short
+          # TODO: adjust for semver
+          # type=semver,pattern=v{{version}}.v{{minor}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0 v7
+        with:
+          context: .
+          push: true
+          # tags: ${{ secrets.DOCKER_USERNAME }}/podinfo-js-barebones:latest
+          tags: ${{ steps.meta.outputs.tags }}

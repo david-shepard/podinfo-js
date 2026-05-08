@@ -29,3 +29,5 @@ LICENSE
 # Tests (not needed at runtime)
 tests
 vitest.config.ts
+
+_notes.txt
