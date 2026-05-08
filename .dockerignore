@@ -1,0 +1,31 @@
+# Don't ship dev dependencies into the image — the build stage runs `npm ci`
+node_modules
+
+# Build artifacts (Dockerfile rebuilds them in the build stage)
+dist
+
+# VCS
+.git
+.gitignore
+
+# Env files (secrets come in at runtime, never in images)
+.env
+.env.*
+!.env.example
+
+# Local dev / OS noise
+.DS_Store
+.vscode
+.idea
+*.log
+coverage
+.nyc_output
+
+# Docs and CI that don't need to be in the build context
+README.md
+LICENSE
+.github
+
+# Tests (not needed at runtime)
+tests
+vitest.config.ts

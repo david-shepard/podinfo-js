@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>podinfo-node</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    pre { background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+    button { padding: 0.5rem 1rem; margin-right: 0.5rem; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>podinfo-node</h1>
+  <p>A small cloud-native demo app.</p>
+
+  <button onclick="fetchInfo()">GET /</button>
+  <button onclick="fetchAndShow('/healthz')">GET /healthz</button>
+  <button onclick="fetchAndShow('/readyz')">GET /readyz</button>
+
+  <pre id="output">Click a button to make a request.</pre>
+
+  <script>
+    const out = document.getElementById('output');
+
+    async function fetchInfo() { fetchAndShow('/'); }
+
+    async function fetchAndShow(path) {
+      try {
+        const res = await fetch(path);
+        const body = await res.json();
+        out.textContent = `${res.status} ${res.statusText}\n\n${JSON.stringify(body, null, 2)}`;
+      } catch (err) {
+        out.textContent = `error: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
