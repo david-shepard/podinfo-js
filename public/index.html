@@ -2,11 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>podinfo-node</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
-    pre { background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow-x: auto; }
-    button { padding: 0.5rem 1rem; margin-right: 0.5rem; cursor: pointer; }
+    :root {
+      --bg: #fdfdfc;
+      --fg: #1a1a1a;
+      --muted: #666;
+      --surface: #f4f4f2;
+      --border: #e2e2df;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1a1a;
+        --fg: #e8e8e6;
+        --muted: #999;
+        --surface: #242422;
+        --border: #333;
+      }
+    }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      max-width: 720px;
+      margin: 3rem auto;
+      padding: 0 1.25rem;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 0.25rem; }
+    p { color: var(--muted); margin: 0 0 2rem; }
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    button {
+      font: inherit;
+      font-size: 0.9rem;
+      padding: 0.45rem 0.9rem;
+      margin-right: 0.5rem;
+      cursor: pointer;
+      background: var(--bg);
+      color: var(--fg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
