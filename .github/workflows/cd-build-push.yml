@@ -64,7 +64,8 @@ jobs:
             name=ghcr.io/david-shepard/podinfo-js
           tags: |
             type=sha,enable=true,prefix=sha-,suffix=,format=short
-          # TODO: adjust for semver
+          # use commit sha as tag until semver is implemented
+          # TODO: use semver versioning scheme
           # type=semver,pattern=v{{version}}.v{{minor}}
 
       - name: Build and push Docker image

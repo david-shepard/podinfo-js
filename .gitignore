@@ -26,4 +26,7 @@ coverage/
 # Runtime
 *.pid
 
+# act local tests
+.github/act
+
 _notes.txt
