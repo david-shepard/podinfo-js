@@ -47,6 +47,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Check docker-compose.yml
+        run: docker-compose -f docker-compose.yml config
+
       - name: Log in to Docker Hub
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
         with:
@@ -65,7 +68,7 @@ jobs:
           tags: |
             type=sha,enable=true,prefix=sha-,suffix=,format=short
           # use commit sha as tag until semver is implemented
-          # TODO: use semver versioning scheme
+          # TODO: use semver versioning scheme, ie:
           # type=semver,pattern=v{{version}}.v{{minor}}
 
       - name: Build and push Docker image

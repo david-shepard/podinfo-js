@@ -30,3 +30,9 @@ coverage/
 .github/act
 
 _notes.txt
+
+# Secrets (keep the directory, but not the contents) 
+secrets/*
+!/secrets/.gitkeep
+
+scratch

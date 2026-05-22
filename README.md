@@ -14,7 +14,7 @@ Use [act](https://nektosact.com/usage): `act -W ./github/workflows/ci.yml`
 
 ## Run (local)
 1. From this directory, `docker build . -t podinfo-js:latest`
-2. `docker run --rm  -p 3000:3000 -it podinfo-js:latest`
+2. `docker run --rm -p 3000:3000 -it podinfo-js:latest`
 
 
 

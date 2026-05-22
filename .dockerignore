@@ -30,4 +30,6 @@ LICENSE
 tests
 vitest.config.ts
 
-_notes.txt
+secrets
+
+scratch

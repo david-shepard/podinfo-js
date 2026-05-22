@@ -7,14 +7,14 @@ export default async function chaosRoutes(app: FastifyInstance) {
     return { error: 'on purpose' };
   });
 
-  // Tests timeouts and drain behavior.
+  // For testing timeouts and drain behavior.
   app.get<{ Querystring: { ms?: string } }>('/delay', async (req) => {
     const ms = Math.min(Number(req.query.ms ?? 1000), 30_000);
     await new Promise((resolve) => setTimeout(resolve, ms));
     return { delayed: ms };
   });
 
-  // Tests HPA on CPU metrics. A blocked event loop also starves health probes.
+  // For testing HPA on CPU metrics later on. A blocked event loop also starves health probes.
   app.get<{ Querystring: { ms?: string } }>('/cpu', async (req) => {
     const duration = Math.min(Number(req.query.ms ?? 1000), 10_000);
     const end = Date.now() + duration;
@@ -24,7 +24,7 @@ export default async function chaosRoutes(app: FastifyInstance) {
     return { burned: duration };
   });
 
-  // Tests pod restart behavior.
+  // For testing pod restart behavior.
   app.get('/panic', async (_req, reply) => {
     reply.code(500).send({ status: 'panicking' });
     // Give the response a tick to flush before we exit.
