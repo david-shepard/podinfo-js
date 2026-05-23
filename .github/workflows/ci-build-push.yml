@@ -9,6 +9,7 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+  # Commands for running only if `ci-build.yml` succeeds
   # workflow_run:
   #   workflows: ["NPM Build"]
   #   branches: [main]
@@ -54,7 +55,7 @@ jobs:
         run: npm run build
 
       - name: Check docker-compose.yml
-        run: docker-compose -f docker-compose.yml config
+        run: docker compose -f docker-compose.yml config
 
       - name: Log in to Docker Hub
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
