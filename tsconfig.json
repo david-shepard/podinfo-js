@@ -16,5 +16,5 @@
     "sourceMap": true,
   },
   "include": ["./"],
-  "exclude": ["node_modules", "dist", "tests"],
+  "exclude": ["node_modules", "dist", "tests", "vitest.config.ts"],
 }

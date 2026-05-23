@@ -18,7 +18,8 @@ export async function buildApp(): Promise<FastifyInstance> {
     logger: { level: config.logLevel },
     trustProxy: true, // without this, req.ip is the proxy's IP
   });
-
+  console.log("log level:", config.logLevel);
+  app.log.debug(`config ${JSON.stringify(config, null, 2)}`);
   // Prometheus metrics — exposes /metrics with default Node.js
   // TODO: add prometheus metrics
   // await app.register(fastifyMetrics, {
