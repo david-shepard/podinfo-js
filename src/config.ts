@@ -7,6 +7,11 @@ export const config = {
   secretsDir: process.env.SECRETS_DIR || "/etc/secrets",
   message: process.env.MESSAGE || "greetings from podinfo-node",
   version: process.env.APP_VERSION || "0.1.0",
+  redisParams: {
+    host: (process.env.REDIS_HOST || process.env.REDIS_URL) ?? 'redis://localhost:6379',
+    port: Number(process.env.REDIS_PORT) || 6379,
+    password: process.env.REDIS_PASSWORD || undefined,
+  },
 } as const;
 
 export type Config = typeof config;

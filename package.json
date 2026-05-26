@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts | pino-pretty",
     "build": "tsc",
+    "prestart": "tsc",
     "start": "node dist/server.js",
     "test": "vitest",
     "test:run": "vitest run",
@@ -18,6 +19,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@fastify/redis": "^7.2.0",
     "@fastify/static": "^8.0.0",
     "close-with-grace": "^2.0.0",
     "fastify": "^5.0.0",

@@ -1,6 +1,13 @@
 # TODO: add testing, preferably via profiles (https://docs.docker.com/compose/how-tos/profiles/)
 services:
   podinfo:
+    develop:
+      watch:
+        - action: rebuild
+          path: ./src
+        - action: sync+restart
+          path: ./proxy/nginx.conf
+          target: /etc/nginx/conf.d/default.conf
     build:
       context: .
       dockerfile: Dockerfile
@@ -17,6 +24,8 @@ services:
       MESSAGE: "greetings from podinfo-node"
       APP_VERSION: "0.1.0"
       SECRETS_DIR: /etc/secrets
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     # Simple way to provide secrets, can dynamically add secrets by adding files to ./secrets dir
     volumes:
       - type: bind
@@ -36,6 +45,14 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+        - '7379:6379'
+    # environment:
+    #     - REDIS_ARGS=--requirepass your_password_here --appendonly yes
+    restart: unless-stopped
 #
 # Alternative way to provide secrets, can't dynamically add secrets by plopping files in ./secrets dir
 #     secrets:

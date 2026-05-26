@@ -28,7 +28,9 @@ describe("info route", () => {
       mountedSecrets: expect.any(Array),
     });
     console.log(body)
+    
     // TODO: inject secrets as part of integration test & verify in later test
+    
     // workaround since we don't care about order
     // expect(new Set(body.mountedSecrets)).toEqual(
     //   new Set(["api-key", "db_pass"]),
