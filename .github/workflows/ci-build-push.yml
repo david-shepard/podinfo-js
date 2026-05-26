@@ -60,6 +60,8 @@ jobs:
 
       - name: Test
         run: npm run test:run
+        env:
+          REDIS_ENABLED: 'true'
 
       - name: Build
         run: npm run build

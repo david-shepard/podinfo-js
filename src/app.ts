@@ -37,14 +37,17 @@ export async function buildApp(): Promise<FastifyInstance> {
 // src/app.ts — one register() call
 
 
-  await app.register(fastifyRedis, {
-    ...config.redisParams,
-    closeClient: true,  // close on app.close() — clean shutdown
-  });
+  if (config.redisEnabled) {
+    await app.register(fastifyRedis, {
+      ...config.redisParams,
+      closeClient: true,  // close on app.close() — clean shutdown
+    });
+    await app.register(cacheRoutes);
+  }
+
   await app.register(infoRoutes);
   await app.register(healthRoutes);
   await app.register(chaosRoutes);
-  await app.register(cacheRoutes);
 
   // await app.register((instance, opts, done) => {
   //   instance.get('/plugin', (request, reply) => {

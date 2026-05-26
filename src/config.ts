@@ -7,8 +7,9 @@ export const config = {
   secretsDir: process.env.SECRETS_DIR || "/etc/secrets",
   message: process.env.MESSAGE || "greetings from podinfo-node",
   version: process.env.APP_VERSION || "0.1.0",
+  redisEnabled: process.env.REDIS_ENABLED === 'true',
   redisParams: {
-    host: (process.env.REDIS_HOST || process.env.REDIS_URL) ?? 'redis://localhost:6379',
+    host: process.env.REDIS_HOST ?? 'localhost',
     port: Number(process.env.REDIS_PORT) || 6379,
     password: process.env.REDIS_PASSWORD || undefined,
   },
