@@ -14,6 +14,10 @@ services:
     # CI/CD uses sha tags, but for local development we can just use latest
     image: podinfo-js:latest
     container_name: podinfo-js
+    depends_on:
+      redis:
+        condition: service_healthy
+        restart: true
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -24,6 +28,7 @@ services:
       MESSAGE: "greetings from podinfo-node"
       APP_VERSION: "0.1.0"
       SECRETS_DIR: /etc/secrets
+      REDIS_ENABLED: 'true'
       REDIS_HOST: redis
       REDIS_PORT: 6379
     # Simple way to provide secrets, can dynamically add secrets by adding files to ./secrets dir
@@ -49,15 +54,21 @@ services:
     image: redis:latest
     container_name: redis
     ports:
-        - '7379:6379'
+      - '6379:6379'
     # environment:
-    #     - REDIS_ARGS=--requirepass your_password_here --appendonly yes
+    #     - REDIS_ARGS=--requirepass <password> --appendonly yes
     restart: unless-stopped
-#
+    healthcheck:
+      test: ["CMD","redis-cli", "ping"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
 # Alternative way to provide secrets, can't dynamically add secrets by plopping files in ./secrets dir
-#     secrets:
-#     - db-password
-#     - api-key
+# secrets:
+#   - db-password
+#   - api-key
 # secrets:
 #   db-password:
 #     file: ./secrets/db-password

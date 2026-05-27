@@ -11,5 +11,6 @@ export default async function infoRoutes(app: FastifyInstance) {
     uptime: process.uptime(),
     nodeVersion: process.version,
     mountedSecrets: listSecretNames(),
+    cacheEnabled: config.redisEnabled,
   }));
 }

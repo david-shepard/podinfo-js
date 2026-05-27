@@ -10,6 +10,8 @@ describe("info route", () => {
   beforeAll(async () => {
     app = await buildApp();
     await app.ready();
+    console.log('NODE_ENV:', process.env.NODE_ENV, 'redis enabled:', process.env.REDIS_ENABLED)
+    console.log('import.meta.env.MODE:', import.meta.env.MODE)
   });
 
   afterAll(async () => {
@@ -17,6 +19,7 @@ describe("info route", () => {
   });
 
   it("GET / returns expected fields", async () => {
+
     const res = await app.inject({ method: "GET", url: "/" });
     expect(res.statusCode).toBe(200);
     const body = res.json();

@@ -13,6 +13,7 @@
     "prestart": "tsc",
     "start": "node dist/server.js",
     "test": "vitest",
+    "test:cache": "REDIS_ENABLED=true vitest run",
     "test:run": "vitest run",
     "test:ci": "vitest run --mode ci",
     "lint": "eslint .",
