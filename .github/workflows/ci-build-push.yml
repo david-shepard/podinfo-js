@@ -61,9 +61,7 @@ jobs:
         run: npm run typecheck
 
       - name: Test
-        run: npm run test:run
-        env:
-          REDIS_ENABLED: 'true'
+        run: npm run test:cache
 
       - name: Build
         run: npm run build
@@ -72,6 +70,7 @@ jobs:
         run: docker compose -f docker-compose.yml config
 
       - name: Log in to Docker Hub
+        if: ${{ !env.ACT }}
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
         with:
           registry: ghcr.io
@@ -79,6 +78,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate docker image tags
+        if: ${{ !env.ACT }}
         id: meta
         uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
         with:
@@ -93,6 +93,7 @@ jobs:
           # type=semver,pattern=v{{version}}.v{{minor}}
 
       - name: Build and push Docker image
+        if: ${{ !env.ACT }}
         uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0 v7
         with:
           context: .
